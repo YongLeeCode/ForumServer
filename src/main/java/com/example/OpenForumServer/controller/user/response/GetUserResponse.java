@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class UserResponse {
-    private final List<UserResponseItem> items;
+public class GetUserResponse {
+    private final GetUserResponseItem item;
     private final Integer totalCount;
 }
