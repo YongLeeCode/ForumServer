@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final ForumRepository forumRepository;
 
-    @Transactional
-    public String actLikeButton(LikeDto likeDto) {
+    public String addLike(LikeDto likeDto) {
         User user = userRepository.findById(likeDto.getUser())
                 .orElseThrow(() -> new IllegalArgumentException("Could not found user"));
         Forum forum = forumRepository.findById(likeDto.getForum())
@@ -37,7 +37,6 @@ public class LikeServiceImpl implements LikeService {
         return "이미 완료된 좋아요 post 요청";
     }
 
-    @Transactional
     public String deleteLike(LikeDto likeDto) {
         User user = userRepository.findById(likeDto.getUser())
                 .orElseThrow(() -> new IllegalArgumentException("Could not found user"));
@@ -49,5 +48,14 @@ public class LikeServiceImpl implements LikeService {
             return "삭제 성공";
         }
         return "이미 완료된 삭제 요청";
+    }
+
+    public boolean getLikeResult(LikeDto likeDto) {
+        User user = userRepository.findById(likeDto.getUser())
+                .orElseThrow(() -> new IllegalArgumentException("Could not found user"));
+        Forum forum = forumRepository.findById(likeDto.getForum())
+                .orElseThrow(() -> new IllegalArgumentException("Could not found forum"));
+        Optional<Like> likeOptional = likeRepository.findByUserAndForum(user, forum);
+        return likeOptional.isPresent();
     }
 }

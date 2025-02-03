@@ -4,7 +4,9 @@ import com.example.OpenForumServer.domain.like.dto.LikeDto;
 
 public interface LikeService {
 
-    String actLikeButton(LikeDto likeDto);
+    String addLike(LikeDto likeDto);
 
     String deleteLike(LikeDto likeDto);
+
+    boolean getLikeResult(LikeDto likeDto);
 }
