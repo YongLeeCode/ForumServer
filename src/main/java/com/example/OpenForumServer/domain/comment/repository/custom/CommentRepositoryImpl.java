@@ -17,6 +17,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         return jpaQueryFactory
                 .selectFrom(qComment)
                 .where(qComment.forum.id.eq(forumId))
+                .orderBy(qComment.parentComment.id.desc(), qComment.createdAt.asc())
                 .fetch();
     }
 }

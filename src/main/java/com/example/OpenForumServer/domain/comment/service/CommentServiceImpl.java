@@ -28,7 +28,18 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("Not found user"));
         Forum forum = forumRepository.findById(forumId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user"));
-        commentRepository.save(dto.toEntity(forum, user));
+        commentRepository.save(dto.toEntity(forum, user, 1, null));
+    }
+
+    public void createNestedComment(Long forumId, Long userId, Long parentCommentId, CommentDto dto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+        Forum forum = forumRepository.findById(forumId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+        Comment parentComment = commentRepository.findById(parentCommentId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found comment"));
+
+        commentRepository.save(dto.toEntity(forum, user, parentComment.getDepth() + 1, parentComment));
     }
 
     public String updateComment(Long forumId, Long commentId, Long userId, CommentDto req) {

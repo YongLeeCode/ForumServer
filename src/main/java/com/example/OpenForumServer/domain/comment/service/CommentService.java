@@ -7,6 +7,8 @@ import java.util.List;
 public interface CommentService {
     void createComment(Long forumId, Long userId, CommentDto commentDto);
 
+    void createNestedComment(Long forumId, Long userId, Long parentCommentId, CommentDto dto);
+
     String updateComment(Long forumId, Long commentId, Long userId, CommentDto req);
 
     List<CommentDto> findAllByForum(Long forumId);

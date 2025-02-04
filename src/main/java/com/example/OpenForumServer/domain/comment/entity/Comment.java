@@ -2,6 +2,7 @@ package com.example.OpenForumServer.domain.comment.entity;
 
 import com.example.OpenForumServer.domain.forum.entity.Forum;
 import com.example.OpenForumServer.domain.user.entity.User;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -54,10 +55,19 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Nullable
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Comment parentComment;
+
+    private Integer depth;
+
     @Builder
-    public Comment(Forum forum, String content, User user) {
+    public Comment(Forum forum, String content, User user, Integer depth, Comment parentComment) {
         this.forum = forum;
         this.content = content;
         this.user = user;
+        this.depth = depth;
+        this.parentComment = parentComment;
     }
 }
