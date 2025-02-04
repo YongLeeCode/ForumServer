@@ -10,4 +10,6 @@ public class CommentCreatorRequest {
     private final String content;
     private final LocalDateTime updatedAt = null;
     private final String userName = "";
+    private final Integer depth = null;
+    private final String parentCommentUser = null;
 }
