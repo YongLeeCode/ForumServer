@@ -1,6 +1,6 @@
 package com.example.OpenForumServer.controller.forum;
 
-import com.example.OpenForumServer.controller.forum.request.CommentCreatorRequest;
+import com.example.OpenForumServer.controller.forum.request.CommentRequest;
 import com.example.OpenForumServer.controller.forum.request.ForumCreatorRequest;
 import com.example.OpenForumServer.controller.forum.request.UpdateForumRequest;
 import com.example.OpenForumServer.controller.forum.response.GetCommentResponse;
@@ -73,17 +73,29 @@ public class ForumController {
     }
 
     // comments APIs
-    @RequestMapping(value = "/forum/{forumId}/comment", method = RequestMethod.POST)
-    public String createComment(@PathVariable Long forumId, @RequestParam Long userId, @RequestBody CommentCreatorRequest req) {
+    @RequestMapping(value = {
+            "/forum/{forumId}/comment",
+            "/forum/{forumId}/parentComment/{commentId}"
+    }, method = RequestMethod.POST)
+    public String createComment(
+            @PathVariable Long forumId,
+            @PathVariable(required = false) Long commentId,
+            @RequestParam Long userId,
+            @RequestBody CommentRequest req) {
         CommentDto dto = CommentDto.fromRequest(req);
-        commentService.createComment(forumId, userId, dto);
+        if (commentId == null) {
+            commentService.createComment(forumId, userId, dto);
+        } else {
+            commentService.createNestedComment(forumId, userId, commentId, dto);
+        }
         return "Success";
     }
 
     @RequestMapping(value = "/forum/{forumId}/comment/{commentId}", method = RequestMethod.PUT)
     public StandardResponse<String> updateComment(@PathVariable Long forumId, @PathVariable Long commentId,
-            @RequestParam Long userId, @RequestBody CommentDto req) {
-        String result = commentService.updateComment(forumId, commentId, userId, req);
+            @RequestParam Long userId, @RequestBody CommentRequest req) {
+        CommentDto dto = CommentDto.fromRequest(req);
+        String result = commentService.updateComment(forumId, commentId, userId, dto);
         return new StandardResponse<>(result, "성공");
     }
 
@@ -101,4 +113,5 @@ public class ForumController {
         String result = commentService.deleteComment(forumId, commentId, userId);
         return new StandardResponse<>(result, "결과는?");
     }
+
 }

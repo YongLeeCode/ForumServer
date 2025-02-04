@@ -12,4 +12,6 @@ public class GetCommentResponseItem {
     private final String content;
     private final LocalDateTime updatedAt;
     private final String userName;
+    private final Integer depth;
+    private final String parentCommentUser;
 }

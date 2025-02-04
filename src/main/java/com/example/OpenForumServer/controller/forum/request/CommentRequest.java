@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CommentCreatorRequest {
+public class CommentRequest {
     private final String content;
     private final LocalDateTime updatedAt = null;
     private final String userName = "";
