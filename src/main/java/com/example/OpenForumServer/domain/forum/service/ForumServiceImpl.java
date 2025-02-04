@@ -7,11 +7,15 @@ import com.example.OpenForumServer.domain.forum.dto.ForumDto;
 import com.example.OpenForumServer.domain.forum.entity.Forum;
 import com.example.OpenForumServer.domain.forum.repository.ForumRepository;
 import com.example.OpenForumServer.domain.user.entity.User;
+import com.example.OpenForumServer.domain.user.exception.UserNotFoundException;
 import com.example.OpenForumServer.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +33,10 @@ public class ForumServiceImpl implements ForumService {
         for(Forum forum : forums) {
             forumDtos.add(ForumDto.fromEntity(forum));
         }
+
+        Pageable pageable = PageRequest.of(1, 10, Sort.by("createdAt").descending());
+        Page<Forum> pageResponse = forumRepository.findAll(pageable);
+        System.out.println(pageResponse);
         return forumDtos;
     }
 
@@ -40,7 +48,7 @@ public class ForumServiceImpl implements ForumService {
 
     public String createForum(Long userId, ForumDto dto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+                .orElseThrow(() -> new UserNotFoundException("Not found user"));
         forumRepository.save(dto.toEntity(user));
         return "success";
     }
