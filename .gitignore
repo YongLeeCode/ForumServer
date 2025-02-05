@@ -40,4 +40,4 @@ out/
 application.yml
 
 ### docker setup
-/docs/docker-mysql-setup.md
+docs/docker-mysql-setup.md
