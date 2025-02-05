@@ -28,10 +28,7 @@ public class LikeServiceImpl implements LikeService {
                 .orElseThrow(() -> new IllegalArgumentException("Could not found forum"));;
         Optional<Like> likeOptional = likeRepository.findByUserAndForum(user, forum);
         if (likeOptional.isEmpty()) {
-            likeRepository.save(Like.builder()
-                .forum(forum)
-                .user(user)
-                .build());
+            likeRepository.save(new Like(user, forum));
             return "생성";
         }
         return "이미 완료된 좋아요 post 요청";

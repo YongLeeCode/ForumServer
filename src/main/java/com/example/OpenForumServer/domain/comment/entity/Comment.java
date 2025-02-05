@@ -15,8 +15,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -62,10 +60,9 @@ public class Comment {
 
     private Integer depth;
 
-    @Builder
-    public Comment(Forum forum, String content, User user, Integer depth, Comment parentComment) {
-        this.forum = forum;
+    public Comment(String content, Forum forum, User user, Integer depth, Comment parentComment) {
         this.content = content;
+        this.forum = forum;
         this.user = user;
         this.depth = depth;
         this.parentComment = parentComment;

@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,10 +44,9 @@ public class User {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @Builder
-    public User(String email, String name, String password) {
-        this.email = email;
+    public User(String name, String email, String password) {
         this.name = name;
+        this.email = email;
         this.password = password;
     }
 }

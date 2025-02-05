@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,8 +34,6 @@ public class Like {
     @JoinColumn(name = "forum_id", nullable = false)
     private Forum forum;
 
-
-    @Builder
     public Like(User user, Forum forum) {
         this.user = user;
         this.forum = forum;

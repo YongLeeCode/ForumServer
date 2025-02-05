@@ -1,12 +1,10 @@
 package com.example.OpenForumServer.controller.forum.response;
 
 import java.time.LocalDateTime;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Builder
 @RequiredArgsConstructor
 @Setter
 @Getter

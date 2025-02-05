@@ -38,9 +38,9 @@ public class ForumController {
         return forumService.createForum(userId, dto);
     }
 
-    @RequestMapping(value = "/forum", method = RequestMethod.GET)
+    @RequestMapping(value = {"/forum", "/forum/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<StandardResponse<GetForumResponse>> getForum(
-            @RequestParam(required = false) Long id) {
+            @PathVariable(required = false) Long id) {
         List<ForumDto> dtos = (id != null)
                 ? List.of(forumService.getForumById(id))
                 : forumService.getAllForum();

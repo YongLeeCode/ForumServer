@@ -30,23 +30,23 @@ public class CommentDto {
     }
 
     public GetCommentResponseItem toResponse() {
-        return GetCommentResponseItem.builder()
-                .content(this.content)
-                .updatedAt(this.updatedAt)
-                .userName(this.userName)
-                .depth(this.depth)
-                .parentCommentUser(this.parentCommentUser)
-                .build();
+        return new GetCommentResponseItem(
+                this.content,
+                this.updatedAt,
+                this.userName,
+                this.depth,
+                this.parentCommentUser
+        );
     }
 
     public Comment toEntity(Forum forum, User user, Integer depth, Comment parentComment) {
-        return Comment.builder()
-                .content(this.content)
-                .forum(forum)
-                .user(user)
-                .depth(depth)
-                .parentComment(parentComment)
-                .build();
+        return new Comment(
+                this.content,
+                forum,
+                user,
+                depth,
+                parentComment
+        );
     }
 
     public static CommentDto fromEntity(Comment comment) {

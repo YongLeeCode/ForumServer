@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,7 +53,6 @@ public class Forum {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
     public Forum(String title, String content, User user) {
         this.title = title;
         this.content = content;

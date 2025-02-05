@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class ForumDto {
+
     private final String title;
     private final String content;
     private final Integer view;
@@ -26,23 +27,6 @@ public class ForumDto {
                 req.getUserName()
         );
     }
-    public GetForumResponseItem toResponse() {
-        return GetForumResponseItem
-                .builder()
-                .title(this.title)
-                .content(this.content)
-                .view(this.view)
-                .createdAt(this.createdAt)
-                .userName(this.userName)
-                .build();
-    }
-    public Forum toEntity(User user) {
-        return Forum.builder()
-                .content(this.content)
-                .title(this.title)
-                .user(user)
-                .build();
-    }
 
     public static ForumDto fromEntity(Forum forum) {
         return new ForumDto(
@@ -51,6 +35,24 @@ public class ForumDto {
                 forum.getView(),
                 forum.getCreatedAt(),
                 forum.getUser().getName()
+        );
+    }
+
+    public GetForumResponseItem toResponse() {
+        return new GetForumResponseItem(
+                this.title,
+                this.content,
+                this.userName,
+                this.view,
+                this.createdAt
+        );
+    }
+
+    public Forum toEntity(User user) {
+        return new Forum(
+                this.title,
+                this.content,
+                user
         );
     }
 }
