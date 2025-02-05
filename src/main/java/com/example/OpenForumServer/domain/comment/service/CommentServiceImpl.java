@@ -24,6 +24,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     public void createComment(Long forumId, Long userId, CommentDto dto) {
+        forumRepository.increaseCommentCount(forumId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user"));
         Forum forum = forumRepository.findById(forumId)
@@ -39,6 +40,7 @@ public class CommentServiceImpl implements CommentService {
         Comment parentComment = commentRepository.findById(parentCommentId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found comment"));
 
+        forumRepository.increaseCommentCount(forumId);
         commentRepository.save(dto.toEntity(forum, user, parentComment.getDepth() + 1, parentComment));
     }
 
@@ -63,6 +65,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public String deleteComment(Long forumId, Long commentId, Long userId) {
+        forumRepository.decreaseCommentCount(forumId);
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("not found comment id"));
         if(!Objects.equals(comment.getUser().getId(), userId)) {
