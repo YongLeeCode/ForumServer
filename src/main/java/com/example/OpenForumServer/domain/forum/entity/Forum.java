@@ -53,6 +53,9 @@ public class Forum {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(columnDefinition = "integer default 0", name = "comment_count")
+    private int commentCount;
+
     public Forum(String title, String content, User user) {
         this.title = title;
         this.content = content;
