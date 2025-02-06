@@ -28,15 +28,14 @@ public class ForumServiceImpl implements ForumService {
     private final UserRepository userRepository;
 
     public List<ForumDto> getAllForum() {
-        List<Forum> forums = forumRepository.findAll();
         List<ForumDto> forumDtos = new ArrayList<>();
-        for(Forum forum : forums) {
-            forumDtos.add(ForumDto.fromEntity(forum));
-        }
 
-        Pageable pageable = PageRequest.of(1, 10, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
         Page<Forum> pageResponse = forumRepository.findAll(pageable);
-        System.out.println(pageResponse);
+
+        for(int i = 0; i < pageResponse.getTotalPages(); i++) {
+            forumDtos.add(ForumDto.fromEntity(pageResponse.getContent().get(i)));
+        }
         return forumDtos;
     }
 
