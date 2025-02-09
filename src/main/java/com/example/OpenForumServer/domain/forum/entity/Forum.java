@@ -61,4 +61,12 @@ public class Forum {
         this.content = content;
         this.user = user;
     }
+
+    public void increaseCommentCount() {
+        this.commentCount += 1;
+    }
+
+    public void decreaseCommentCount() {
+        this.commentCount -= 1;
+    }
 }

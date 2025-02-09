@@ -24,11 +24,14 @@ public class CommentServiceImpl implements CommentService {
 
 
     public void createComment(Long forumId, Long userId, CommentDto dto) {
-        forumRepository.increaseCommentCount(forumId);
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+
         Forum forum = forumRepository.findById(forumId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+
+        forum.increaseCommentCount();
         commentRepository.save(dto.toEntity(forum, user, 1, null));
     }
 
@@ -40,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
         Comment parentComment = commentRepository.findById(parentCommentId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found comment"));
 
-        forumRepository.increaseCommentCount(forumId);
+        forum.increaseCommentCount();
         commentRepository.save(dto.toEntity(forum, user, parentComment.getDepth() + 1, parentComment));
     }
 
@@ -65,13 +68,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public String deleteComment(Long forumId, Long commentId, Long userId) {
-        forumRepository.decreaseCommentCount(forumId);
+        Forum forum = forumRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("not found forum id"));
+        forum.decreaseCommentCount();
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("not found comment id"));
-        if(!Objects.equals(comment.getUser().getId(), userId)) {
+        if (!Objects.equals(comment.getUser().getId(), userId)) {
             return "이 댓글을 작성한 유저가 아니기 때문에 삭제를 실패했습니다.";
         }
-        if(!Objects.equals(comment.getForum().getId(), forumId)) {
+        if (!Objects.equals(comment.getForum().getId(), forumId)) {
             return "이 댓글과 포럼이 매칭에 실패했습니다.";
         }
         commentRepository.deleteById(comment.getId());
