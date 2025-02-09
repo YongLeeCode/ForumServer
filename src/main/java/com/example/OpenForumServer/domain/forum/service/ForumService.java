@@ -1,12 +1,13 @@
 package com.example.OpenForumServer.domain.forum.service;
 
 import com.example.OpenForumServer.controller.forum.request.UpdateForumRequest;
-import com.example.OpenForumServer.controller.forum.response.GetForumResponseItem;
 import com.example.OpenForumServer.domain.forum.dto.ForumDto;
 import java.util.List;
 
 public interface ForumService {
     String createForum(Long userId, ForumDto forumDto);
+
+    List<ForumDto> getByPageNumber(int page);
 
     List<ForumDto> getAllForum();
 

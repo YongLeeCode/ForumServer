@@ -37,6 +37,18 @@ public class ForumController {
         ForumDto dto = ForumDto.fromRequest(req);
         return forumService.createForum(userId, dto);
     }
+    @RequestMapping(value = "/forumsss", method = RequestMethod.GET)
+    public ResponseEntity<StandardResponse<GetForumResponse>> getForumsByPageNumber(
+            @RequestParam int page
+    ) {
+        List<ForumDto> dtos = forumService.getByPageNumber(page);
+        List<GetForumResponseItem> items = dtos.stream()
+                .map(ForumDto::toResponse)
+                .toList();
+
+        GetForumResponse res = new GetForumResponse(items, items.size());
+        return ResponseEntity.status(HttpStatus.OK).body(new StandardResponse<>(res, "성공"));
+    }
 
     @RequestMapping(value = {"/forum", "/forum/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<StandardResponse<GetForumResponse>> getForum(
